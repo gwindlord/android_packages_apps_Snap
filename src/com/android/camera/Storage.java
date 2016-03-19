@@ -138,7 +138,7 @@ public class Storage {
             mimeType == null) {
             values.put(ImageColumns.DISPLAY_NAME, title + ".jpg");
         } else {
-            values.put(ImageColumns.DISPLAY_NAME, title + ".raw");
+            values.put(ImageColumns.DISPLAY_NAME, title + "one_plus_one.raw");
         }
         values.put(ImageColumns.DATE_TAKEN, date);
         values.put(ImageColumns.MIME_TYPE, "image/jpeg");

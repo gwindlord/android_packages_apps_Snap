@@ -358,4 +358,12 @@
             camera:entries="@array/pref_switch_entries"
             camera:singleIcon="@drawable/ic_settings_bright_screen"
             camera:entryValues="@array/pref_switch_entryvalues" />
+
+  <ListPreference
+            camera:key="pref_camera_save_dng_key"
+            camera:defaultValue="@string/pref_camera_save_dng_value_off"
+            camera:title="@string/pref_camera_save_dng_title"
+            camera:entries="@array/pref_camera_save_dng_entries"
+            camera:entryValues="@array/pref_camera_save_dng_entryvalues" />
+
 </PreferenceGroup>

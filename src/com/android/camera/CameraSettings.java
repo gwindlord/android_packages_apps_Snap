@@ -65,6 +65,7 @@ public class CameraSettings {
     public static final String KEY_VIDEOCAMERA_FLASH_MODE = "pref_camera_video_flashmode_key";
     public static final String KEY_WHITE_BALANCE = "pref_camera_whitebalance_key";
     public static final String KEY_SCENE_MODE = "pref_camera_scenemode_key";
+    public static final String KEY_SAVE_DNG = "pref_camera_save_dng_key";
     public static final String KEY_EXPOSURE = "pref_camera_exposure_key";
     public static final String KEY_TIMER = "pref_camera_timer_key";
     public static final String KEY_TIMER_SOUND_EFFECTS = "pref_camera_timer_sound_key";

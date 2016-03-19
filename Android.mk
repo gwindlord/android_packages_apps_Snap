@@ -42,6 +42,8 @@ else
   LOCAL_REQUIRED_MODULES := libjni_snapmosaic libjni_snaptinyplanet
 endif
 
+LOCAL_PREBUILT_JNI_LIBS := libs/libRawToDng.so
+
 include $(BUILD_PACKAGE)
 
 include $(call all-makefiles-under, $(LOCAL_PATH))

@@ -40,6 +40,7 @@ import android.media.AudioManager;
 import android.media.CameraProfile;
 import android.media.SoundPool;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
@@ -318,12 +319,15 @@ public class PhotoModule
     public long mAutoFocusTime;
     public long mShutterLag;
     public long mShutterToPictureDisplayedTime;
+    
     public long mPictureDisplayedToJpegCallbackTime;
     public long mJpegCallbackFinishTime;
     public long mCaptureStartTime;
 
     // This handles everything about focus.
     private FocusOverlayManager mFocusManager;
+
+    private String rawname = null;
 
     private String mSceneMode;
     private String mSavedFlashMode = null;
@@ -935,6 +939,121 @@ public class PhotoModule
         }
     }
 
+    class DngConversion extends AsyncTask<String, Void, Void>
+    {
+        String name;
+        
+        public DngConversion(final String name) {
+            super();
+            this.name = name;
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        
+        protected Void doInBackground(String[] args) {
+            setCameraState(3);
+            convertDng(name);
+            return null;
+        }
+        
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.v("CAM_PhotoModule", "RAW! Restart Preview");
+            stopPreview();
+            resizeForPreviewAspectRatio();
+            startPreview();
+            setCameraState(1);
+        }
+        
+        private void convertDng(String title) {
+            File file = new File(android.os.Environment.getExternalStorageDirectory() + "/DCIM/Camera/raw/" + title + ".raw");
+            System.out.println(file);
+            if((!file.isDirectory()) && (file.getAbsolutePath().endsWith(".raw"))) {
+                DngSupportedDevices.SupportedDevices devices = getDevice(file.getName());
+                if(devices == null) {
+                    Log.d("rawtodng", "Unknown RAWFILE: " + file.getName());
+                    return;
+                }
+                byte[] data = null;
+                try {
+                    data = RawToDng.readFile(file);
+                    Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+                } catch(FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+                String out = file.getAbsolutePath().replace(".raw", ".dng");
+                RawToDng dng = RawToDng.GetInstance();
+                dng.SetBayerData(data, out);
+                dng.setExifData(0x64, 0.0, 0x0, 0.0f, 0.0f, "", "0", 0.0);
+                dng.WriteDNG(devices);
+                data = null;
+                new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE").setData(Uri.fromFile(file));
+            }
+        }
+        
+        private DngSupportedDevices.SupportedDevices getDevice(String filename) {
+            if(filename.toLowerCase().contains("yureka")) {
+                return DngSupportedDevices.SupportedDevices.yureka;
+            }
+            if(filename.toLowerCase().contains("lg_g3")) {
+                return DngSupportedDevices.SupportedDevices.LG_G3;
+            }
+            if(filename.toLowerCase().contains("gione_e7")) {
+                return DngSupportedDevices.SupportedDevices.Gione_E7;
+            }
+            if(filename.toLowerCase().contains("one_m8")) {
+                return DngSupportedDevices.SupportedDevices.HTC_One_m8;
+            }
+            if(filename.toLowerCase().contains("one_m9")) {
+                return DngSupportedDevices.SupportedDevices.HTC_One_m9;
+            }
+            if(filename.toLowerCase().contains("htc_one_sv")) {
+                return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
+            }
+            if(filename.toLowerCase().contains("k910")) {
+                return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+            }
+            if(filename.toLowerCase().contains("lg_g2")) {
+                return DngSupportedDevices.SupportedDevices.LG_G2;
+            }
+            if(filename.toLowerCase().contains("zte")) {
+                return DngSupportedDevices.SupportedDevices.zteAdv;
+            }
+            if(filename.toLowerCase().contains("xperial")) {
+                return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+            }
+            if(filename.toLowerCase().contains("htc_one_xl")) {
+                return DngSupportedDevices.SupportedDevices.HTC_One_XL;
+            }
+            if(filename.toLowerCase().contains("one_plus_one")) {
+                return DngSupportedDevices.SupportedDevices.OnePlusOne;
+            }
+            if(filename.toLowerCase().contains("xiaomi_redmi_note")) {
+                return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
+            }
+            if(filename.toLowerCase().contains("xiaomi_mi3w")) {
+                return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
+            }
+            if(filename.contains("Meizu_Mx4")) {
+                return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
+            }
+            if(filename.contains("MTK_THL5000")) {
+                return DngSupportedDevices.SupportedDevices.THL5000;
+            }
+            if(filename.contains("Xiaomi_MI_NOTE_Pro")) {
+                return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
+            }
+            if(filename.contains("alcatel idol 3 ")) {
+                return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
+            }
+            return null;
+        }
+    }
+
     // TODO: need to check cached background apps memory and longshot ION memory
     private boolean isLongshotNeedCancel() {
         if (SECONDARY_SERVER_MEM == 0) {
@@ -1291,6 +1410,7 @@ public class PhotoModule
             if (!mRefocus || (mRefocus && mReceivedSnapNum == 7)) {
                 ExifInterface exif = Exif.getExif(jpegData);
                 int orientation = Exif.getOrientation(exif);
+                rawname = null;
                 if (!mIsImageCaptureIntent) {
                     // Burst snapshot. Generate new image name.
                     if (mReceivedSnapNum > 1) {
@@ -1352,6 +1472,9 @@ public class PhotoModule
                                     jpegData, title, date, mLocation, width, height,
                                     orientation, exif, mOnMediaSavedListener,
                                     mContentResolver, mPictureFormat);
+                            if (!pictureFormat.equalsIgnoreCase(PIXEL_FORMAT_JPEG)) {
+                                rawname = title;
+                            }
                             if (mRefocus && mReceivedSnapNum == 7) {
                                  mUI.showRefocusToast(mRefocus);
                             }
@@ -1384,6 +1507,11 @@ public class PhotoModule
                         } else {
                             onCaptureDone();
                         }
+                    }
+
+                    final String string = mPreferences.getString(CameraSettings.KEY_SAVE_DNG, mActivity.getString(R.string.pref_camera_save_dng_value_off));
+                    if (rawname != null && string.equals("on")) {
+                        new DngConversion(rawname).execute(new String[0]);
                     }
                     // Check this in advance of each shot so we don't add to shutter
                     // latency. It's true that someone else could write to the SD card in

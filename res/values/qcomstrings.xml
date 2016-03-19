@@ -498,6 +498,12 @@
     <!-- TODO: Remove these? -->
     <string name="pref_camera_redeyereduction_entry_disable" translatable="false">disable</string>
 
+    <string name="pref_camera_save_dng_title">Save DNG raw</string>
+    <string name="pref_camera_save_dng_on">On</string>
+    <string name="pref_camera_save_dng_off">Off</string>
+    <string name="pref_camera_save_dng_value_on">on</string>
+    <string name="pref_camera_save_dng_value_off">off</string>
+
     <string name="pref_camera_cds_value_off" translatable="false">off</string>
     <string name="pref_camera_video_cds_value_off" translatable="false">off</string>
 
