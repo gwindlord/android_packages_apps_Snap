@@ -831,4 +831,19 @@
         <item>@string/pref_camera_save_dng_value_on</item>
     </string-array>
 
+    <string-array name="pref_camera_grids_entries">
+        <item>@string/pref_camera_grids_entry_none</item>
+        <item>@string/pref_camera_grids_entry_ruleofthirds</item>
+        <item>@string/pref_camera_grids_entry_fourth</item>
+        <item>@string/pref_camera_grids_entry_viewfinder</item>
+        <item>@string/pref_camera_grids_entry_diagonals</item>
+    </string-array>
+    <string-array name="pref_camera_grids_entryvalues">
+        <item>@string/pref_camera_grids_entry_none_value</item>
+        <item>@string/pref_camera_grids_entry_ruleofthirds_value</item>
+        <item>@string/pref_camera_grids_entry_fourth_value</item>
+        <item>@string/pref_camera_grids_entry_viewfinder_value</item>
+        <item>@string/pref_camera_grids_entry_diagonals_value</item>
+    </string-array>
+
 </resources>

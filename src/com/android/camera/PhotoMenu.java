@@ -193,6 +193,7 @@ public class PhotoMenu extends MenuController
                 CameraSettings.KEY_SELECTABLE_ZONE_AF,
                 CameraSettings.KEY_PICTURE_FORMAT,
                 CameraSettings.KEY_SAVE_DNG,
+                CameraSettings.KEY_GRIDS,
                 CameraSettings.KEY_SATURATION,
                 CameraSettings.KEY_CONTRAST,
                 CameraSettings.KEY_SHARPNESS,

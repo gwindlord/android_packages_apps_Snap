@@ -126,6 +126,8 @@ public class PhotoModule
     public boolean mFaceDetectionEnabled = false;
     private boolean mLgeHdrMode = false;
     public boolean mHistogramEnabled = false;
+    private Grids mGrids;
+    public String mGridsType;
     // We number the request code from 1000 to avoid collision with Gallery.
     private static final int REQUEST_CROP = 1000;
 
@@ -160,7 +162,7 @@ public class PhotoModule
     private CameraActivity mActivity;
     private CameraProxy mCameraDevice;
     private int mCameraId;
-    private Parameters mParameters;
+    public static Parameters mParameters;
     private boolean mPaused;
     private View mRootView;
 
@@ -278,7 +280,7 @@ public class PhotoModule
     // The value for android.hardware.Camera.setDisplayOrientation.
     private int mCameraDisplayOrientation;
     // The value for UI components like indicators.
-    private int mDisplayOrientation;
+    public int mDisplayOrientation;
     // The value for android.hardware.Camera.Parameters.setRotation.
     private int mJpegRotation;
     // Indicates whether we are using front camera
@@ -604,6 +606,15 @@ public class PhotoModule
                     return;
                 }
                 mCameraDevice.setPreviewDisplay(sh);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mGrids != null && mGraphView != null) {
+                            mGrids.PreviewChanged();
+                            mGraphView.PreviewChanged();
+                        }
+                    }
+               });
             }
         }
     }
@@ -855,10 +866,18 @@ public class PhotoModule
         }
 
         mNamedImages = new NamedImages();
+        mGrids = (Grids)mRootView.findViewById(R.id.grids);
+        if (mGrids == null){
+            Log.e(TAG, "mGrids is null");
+        } else {
+            mGrids.setPhotoModuleObject(this);
+            mGrids.setVisibility(8);
+        }
 
         mFirstTimeInitialized = true;
         Log.d(TAG, "addIdleHandler in first time initialization");
         addIdleHandler();
+        updateGrids();
 
     }
 
@@ -1185,6 +1204,10 @@ public class PhotoModule
                 @Override
                 public void run() {
                     mUI.updateHistogramData(data);
+                    if(mGraphView != null)
+                        mGraphView.PreviewChanged();
+                    if(mGrids != null)
+                        mGrids.PreviewChanged();
                 }
            });
         }
@@ -1549,9 +1572,12 @@ public class PhotoModule
                             @Override
                             public void run() {
                                 mUI.setHistogramEnabled(true, getCamera());
+                            if (mGrids != null) {
+                                mGrids.PreviewChanged();
                             }
-                        });
-                    }
+                        }
+                    });
+                }
                 if (mSnapshotMode == CameraInfo.CAMERA_SUPPORT_MODE_ZSL &&
                         mCameraState != LONGSHOT &&
                         mReceivedSnapNum == mBurstSnapNum &&
@@ -2122,6 +2148,10 @@ public class PhotoModule
             mHandler.removeMessages(SHOW_TAP_TO_FOCUS_TOAST);
             showTapToFocusToast();
         }
+
+        if (mGrids != null) {
+            mGrids.PreviewChanged();
+        }
     }
 
     @Override
@@ -2621,6 +2651,44 @@ public class PhotoModule
         }
     }
 
+    public void updateGrids() {
+        final String string = mPreferences.getString(CameraSettings.KEY_GRIDS, mActivity.getString(R.string.pref_camera_grids_default));
+        if (string.equals(mActivity.getString(R.string.pref_camera_grids_entry_none_value))) {
+            if (mGrids != null) {
+                mGrids.setVisibility(8);
+                mGrids.PreviewChanged();
+            }
+        }
+        else if (string.equals(mActivity.getString(R.string.pref_camera_grids_entry_ruleofthirds_value))) {
+            mGridsType = mActivity.getString(R.string.pref_camera_grids_entry_ruleofthirds_value);
+            if (mGrids != null) {
+                mGrids.setVisibility(0);
+                mGrids.PreviewChanged();
+            }
+        }
+        else if (string.equals(mActivity.getString(R.string.pref_camera_grids_entry_fourth_value))) {
+            mGridsType = mActivity.getString(R.string.pref_camera_grids_entry_fourth_value);
+            if (mGrids != null) {
+                mGrids.setVisibility(0);
+                mGrids.PreviewChanged();
+            }
+        }
+        else if (string.equals(mActivity.getString(R.string.pref_camera_grids_entry_viewfinder_value))) {
+            mGridsType = mActivity.getString(R.string.pref_camera_grids_entry_viewfinder_value);
+            if (mGrids != null) {
+                mGrids.setVisibility(0);
+                mGrids.PreviewChanged();
+            }
+        }
+        else if (string.equals(mActivity.getString(R.string.pref_camera_grids_entry_diagonals_value))) {
+            mGridsType = mActivity.getString(R.string.pref_camera_grids_entry_diagonals_value);
+            if (mGrids != null) {
+                mGrids.setVisibility(0);
+                mGrids.PreviewChanged();
+            }
+        }
+    }
+
     @Override
     public void onActivityResult(
             int requestCode, int resultCode, Intent data) {
@@ -2841,6 +2909,15 @@ public class PhotoModule
 
             // Let UI set its expected aspect ratio
             mCameraDevice.setPreviewDisplay(sh);
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mGrids != null && mGraphView != null) {
+                        mGrids.PreviewChanged();
+                        mGraphView.PreviewChanged();
+                    }
+                }
+           });
         }
 
         if (!mCameraPreviewParamsReady) {
@@ -3447,6 +3524,13 @@ public class PhotoModule
             });
             mCameraDevice.setHistogramMode(mHistogramEnabled ? mStatsCallback : null);
         }
+
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                 if (mGrids != null)
+                     mGrids.PreviewChanged();
+                 }
+            });
 
         setFlipValue();
 
@@ -4423,6 +4507,7 @@ public class PhotoModule
             mHandler.sendEmptyMessage(SET_PHOTO_UI_PARAMS);
         }
         resizeForPreviewAspectRatio();
+        updateGrids();
     }
 
     @Override

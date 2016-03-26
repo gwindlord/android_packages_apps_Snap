@@ -516,6 +516,19 @@
     <string name="pref_camera_manual_wb_value_color_temperature" translatable="false">color-temperature</string>
     <string name="pref_camera_manual_wb_value_rbgb_gains" translatable="false">rbgb-gains</string>
 
+    <string name="pref_camera_grids_default">none</string>
+    <string name="pref_camera_grids_title">Grids</string>
+    <string name="pref_camera_grids_entry_none">None</string>
+    <string name="pref_camera_grids_entry_ruleofthirds">Rule of Thirds</string>
+    <string name="pref_camera_grids_entry_fourth">Fourth</string>
+    <string name="pref_camera_grids_entry_viewfinder">Viewfinder</string>
+    <string name="pref_camera_grids_entry_diagonals">Diagonals</string>
+    <string name="pref_camera_grids_entry_none_value">none</string>
+    <string name="pref_camera_grids_entry_ruleofthirds_value">ruleofthirds</string>
+    <string name="pref_camera_grids_entry_fourth_value">fourth</string>
+    <string name="pref_camera_grids_entry_viewfinder_value">viewfinder</string>
+    <string name="pref_camera_grids_entry_diagonals_value">diagonals</string>
+
     <string name="pref_camera_manual_exp_value_ISO_priority" translatable="false">iso-priority</string>
     <string name="pref_camera_manual_exp_value_exptime_priority" translatable="false">exp-time-priority</string>
     <string name="pref_camera_manual_exp_value_user_setting" translatable="false">user-setting</string>

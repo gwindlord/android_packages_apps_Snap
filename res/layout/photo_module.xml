@@ -44,7 +44,16 @@
     <com.android.camera.ui.focus.FocusRingView
         android:id="@+id/focus_ring"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+     <RelativeLayout android:id="@+id/linear"
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+        <com.android.camera.Grids
+            android:id="@+id/grids"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </RelativeLayout>
     <ImageView
         android:id="@+id/review_image"
         android:layout_width="match_parent"
