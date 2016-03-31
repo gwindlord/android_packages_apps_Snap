@@ -989,7 +989,11 @@ public class PhotoModule
                 String out = file.getAbsolutePath().replace(".raw", ".dng");
                 RawToDng dng = RawToDng.GetInstance();
                 dng.SetBayerData(data, out);
-                dng.setExifData(100, 0, 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
+                //dng.setExifData(100, 0, 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
+                String isoMode = mParameters.getISOValue();
+                int mISO = ((isoMode.equals("auto")) ? 0 : Integer.parseInt(isoMode.split("O")[1]));
+                String orientationDiff = Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90);
+                dng.setExifData(mISO, 0, 0, 0, 0, "", orientationDiff, 0);
                 //dng.setExifData(100, (double) mParameters.getExposureCompensation(), 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
                 //dng.setExifData(100, (double) CameraSettings.readExposure(mPreferences), 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
                 //dng.setExifData(Integer.parseInt(mParameters.get(CameraSettings.KEY_CURRENT_ISO)), 0, 0, 0, 0, "", Integer.toString((mMirror) ? mDisplayOrientation + 180 : mDisplayOrientation), 0);
