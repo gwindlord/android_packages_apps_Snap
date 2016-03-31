@@ -397,7 +397,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688: //qcom
-                return new DngProfile(64, 4212, 3082,Qcom, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4212, 3120, Qcom, RGGb, getG3_rowSizeL,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,
@@ -407,7 +407,17 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 16424960: //mipi
-                return new DngProfile(64, 4212, 3082,Mipi, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4212, 3082, Mipi, RGGb, getG3_rowSizeL,
+                        Matrixes.Nex6CCM1,
+                        Matrixes.Nex6CCM2,
+                        Matrixes.Nex6NM,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
+            case 6721536: // front
+                return new DngProfile(64, 2592, 1944, Qcom, BGGR, 0,
                         Matrixes.Nex6CCM1,
                         Matrixes.Nex6CCM2,
                         Matrixes.Nex6NM,

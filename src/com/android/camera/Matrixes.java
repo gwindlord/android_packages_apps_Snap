@@ -74,7 +74,8 @@ public class Matrixes
         OnePlus_foward_matrix2 = new float[] { 0.6617f, 0.3849f, -0.0823f, 0.24f, 1.1138f, -0.3538f, -0.0062f, -0.1147f, 0.946f };
         OnePlus_reduction_matrix1 = new float[] { 1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f };
         OnePlus_reduction_matrix2 = new float[] { 1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f };
-        OnePlus_noise_3x1_matrix = new float[] { 0.8853463f, 1.0f, 0.5438499f };
+        //OnePlus_noise_3x1_matrix = new float[] { 0.8853463f, 1.0f, 0.5438499f };
+        OnePlus_noise_3x1_matrix = new float[] { 0.5438498847101853f, (float) 0, (float) 0.5438498847101853 ,0f,0.5438498847101853f,0f };
         Nexus6_identity_matrix1 = new float[] { 1.1407f, -0.4022f, -0.234f, -0.4314f, 1.404f, 0.0146f, -0.0439f, 0.2047f, 0.5704f };
         Nexus6_identity_matrix2 = new float[] { 0.7228f, -0.0893f, -0.0975f, -0.4792f, 1.3481f, 0.1381f, -0.1137f, 0.268f, 0.5604f };
         Nexus6_identity_neutra = new float[] { 0.5391f, 1.0f, 0.6641f };
@@ -82,7 +83,8 @@ public class Matrixes
         Nexus6_foward_matrix2 = new float[] { 0.7578f, 0.0859f, 0.1172f, 0.2734f, 0.8281f, -0.1016f, 0.0156f, -0.2813f, 1.0859f };
         Nexus6_reduction_matrix1 = new float[] { 1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f };
         Nexus6_reduction_matrix2 = new float[] { 1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f };
-        Nexus6_noise_3x1_matrix = new float[] { 0.8853463f, 1.0f, 0.5438499f };
+        //Nexus6_noise_3x1_matrix = new float[] { 0.8853463f, 1.0f, 0.5438499f };
+        Nexus6_noise_3x1_matrix = new float[] { 0.00051471478f, 0f, 0.00051471478f, 0f, 0.00051471478f, 0f };
         G4_identity_matrix1 = new float[] { 1.15625f, -0.2890625f, -0.3203125f, -0.53125f, 1.5625f, 0.0625f, -0.078125f, 0.28125f, 0.5625f };
         G4_identity_matrix2 = new float[] { 0.5859375f, 0.0546875f, -0.125f, -0.6484375f, 1.5546875f, 0.0546875f, -0.2421875f, 0.5625f, 0.390625f };
         G4_identity_neutra = new float[] { 0.53125f, 1.0f, 0.640625f };

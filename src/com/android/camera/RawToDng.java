@@ -215,6 +215,11 @@ public class RawToDng {
         }
         if(devices != null) {
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            if (profile == null)
+            {
+                RELEASE();
+                return;
+            }
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
             //SetBayerInfo(this, this, this, this, this, this, this, this, this, this, this, Build.MODEL, this, this, this);
             SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);

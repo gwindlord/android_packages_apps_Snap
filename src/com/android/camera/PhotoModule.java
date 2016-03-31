@@ -122,6 +122,7 @@ public class PhotoModule
     private int mBurstSnapNum = 1;
     private int mReceivedSnapNum = 0;
     private int mLongshotSnapNum = 0;
+    // private int mISO = 100;
     public boolean mFaceDetectionEnabled = false;
     private boolean mLgeHdrMode = false;
     public boolean mHistogramEnabled = false;
@@ -988,10 +989,15 @@ public class PhotoModule
                 String out = file.getAbsolutePath().replace(".raw", ".dng");
                 RawToDng dng = RawToDng.GetInstance();
                 dng.SetBayerData(data, out);
-                dng.setExifData(0x64, 0.0, 0x0, 0.0f, 0.0f, "", "0", 0.0);
+                dng.setExifData(100, 0, 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
+                //dng.setExifData(100, (double) mParameters.getExposureCompensation(), 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
+                //dng.setExifData(100, (double) CameraSettings.readExposure(mPreferences), 0, 0, 0, "", Integer.toString((mMirror) ? mOrientation + ((mOrientation == 0) ? 270 : 90) : mOrientation + 90), 0);
+                //dng.setExifData(Integer.parseInt(mParameters.get(CameraSettings.KEY_CURRENT_ISO)), 0, 0, 0, 0, "", Integer.toString((mMirror) ? mDisplayOrientation + 180 : mDisplayOrientation), 0);
+                //dng.setExifData(mISO, 0, 0, 0, 0, "", Integer.toString((mMirror) ? mDisplayOrientation + 180 : mDisplayOrientation), 0);
                 dng.WriteDNG(devices);
                 data = null;
                 new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE").setData(Uri.fromFile(file));
+                file.delete(); // removing original raw - causes BitmapFactory error later, cannot find where, but does not ruin anything
             }
         }
         
@@ -1474,6 +1480,7 @@ public class PhotoModule
                                     mContentResolver, mPictureFormat);
                             if (!pictureFormat.equalsIgnoreCase(PIXEL_FORMAT_JPEG)) {
                                 rawname = title;
+                                //mISO = exif.getTagIntValue(ExifInterface.TAG_ISO_SPEED_RATINGS);
                             }
                             if (mRefocus && mReceivedSnapNum == 7) {
                                  mUI.showRefocusToast(mRefocus);
@@ -1511,6 +1518,7 @@ public class PhotoModule
 
                     final String string = mPreferences.getString(CameraSettings.KEY_SAVE_DNG, mActivity.getString(R.string.pref_camera_save_dng_value_off));
                     if (rawname != null && string.equals("on")) {
+                        updateCameraOrientation();
                         new DngConversion(rawname).execute(new String[0]);
                     }
                     // Check this in advance of each shot so we don't add to shutter
