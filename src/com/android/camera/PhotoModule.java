@@ -280,7 +280,7 @@ public class PhotoModule
     // The value for android.hardware.Camera.setDisplayOrientation.
     private int mCameraDisplayOrientation;
     // The value for UI components like indicators.
-    public int mDisplayOrientation;
+    private int mDisplayOrientation;
     // The value for android.hardware.Camera.Parameters.setRotation.
     private int mJpegRotation;
     // Indicates whether we are using front camera

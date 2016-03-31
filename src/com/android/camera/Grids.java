@@ -35,7 +35,7 @@ class Grids extends View {
         if(mPaint == null) {
             mPaint = new Paint();
         }
-        mPaint.setARGB(0xff, 0xff, 0xff, 0xff);
+        mPaint.setARGB(255, 255, 255, 255);
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
         int previewWidth;
@@ -44,46 +44,40 @@ class Grids extends View {
             previewWidth = PhotoModule.mParameters.getPreviewSize().width;
             previewHeight = PhotoModule.mParameters.getPreviewSize().height;
         } else {
-            previewWidth = 0x438;
-            previewHeight = 0x780;
+            previewWidth = 1080;
+            previewHeight = 1920;
         }
-        if((mPhotoModule.mDisplayOrientation == 0) || (mPhotoModule.mDisplayOrientation == 0xb4)) {
-            canvas.translate((float)((width - previewWidth) / 0x2), (float)((height - previewHeight) / 0x2));
-            width = previewWidth;
-            height = previewHeight;
-        } else {
-            canvas.translate((float)((width - previewHeight) / 0x2), (float)((height - previewWidth) / 0x2));
-            width = previewHeight;
-            height = previewWidth;
-        }
+        canvas.translate((float)((width - previewHeight) / 2), (float)((height - previewWidth) / 2));
+        width = previewHeight;
+        height = previewWidth;
         if(mPhotoModule.mGridsType.equals("ruleofthirds")) {
-            canvas.drawLine((float)(width / 0x3), 0.0f, (float)(width / 0x3), (float)height, mPaint);
-            canvas.drawLine((float)((width * 0x2) / 0x3), 0.0f, (float)((width * 0x2) / 0x3), (float)height, mPaint);
-            canvas.drawLine(0.0f, (float)(height / 0x3), (float)width, (float)(height / 0x3), mPaint);
-            canvas.drawLine(0.0f, (float)((height * 0x2) / 0x3), (float)width, (float)((height * 0x2) / 0x3), mPaint);
+            canvas.drawLine((float)(width / 3), 0.0f, (float)(width / 3), (float)height, mPaint);
+            canvas.drawLine((float)((width * 2) / 3), 0.0f, (float)((width * 2) / 3), (float)height, mPaint);
+            canvas.drawLine(0.0f, (float)(height / 3), (float)width, (float)(height / 3), mPaint);
+            canvas.drawLine(0.0f, (float)((height * 2) / 3), (float)width, (float)((height * 2) / 3), mPaint);
             return;
         }
         if(mPhotoModule.mGridsType.equals("fourth")) {
-            canvas.drawLine((float)(width / 0x4), 0.0f, (float)(width / 0x4), (float)height, mPaint);
-            canvas.drawLine((float)((width * 0x2) / 0x4), 0.0f, (float)((width * 0x2) / 0x4), (float)height, mPaint);
-            canvas.drawLine((float)((width * 0x3) / 0x4), 0.0f, (float)((width * 0x3) / 0x4), (float)height, mPaint);
-            canvas.drawLine(0.0f, (float)(height / 0x4), (float)width, (float)(height / 0x4), mPaint);
-            canvas.drawLine(0.0f, (float)((height * 0x2) / 0x4), (float)width, (float)((height * 0x2) / 0x4), mPaint);
-            canvas.drawLine(0.0f, (float)((height * 0x3) / 0x4), (float)width, (float)((height * 0x3) / 0x4), mPaint);
+            canvas.drawLine((float)(width / 4), 0.0f, (float)(width / 4), (float)height, mPaint);
+            canvas.drawLine((float)((width * 2) / 4), 0.0f, (float)((width * 2) / 4), (float)height, mPaint);
+            canvas.drawLine((float)((width * 3) / 4), 0.0f, (float)((width * 3) / 4), (float)height, mPaint);
+            canvas.drawLine(0.0f, (float)(height / 4), (float)width, (float)(height / 4), mPaint);
+            canvas.drawLine(0.0f, (float)((height * 2) / 4), (float)width, (float)((height * 2) / 4), mPaint);
+            canvas.drawLine(0.0f, (float)((height * 3) / 4), (float)width, (float)((height * 3) / 4), mPaint);
             return;
         }
         if(mPhotoModule.mGridsType.equals("viewfinder")) {
-            canvas.drawLine((float)(width / 0x2), 0.0f, (float)(width / 0x2), (float)height, mPaint);
-            canvas.drawLine(0.0f, (float)(height / 0x2), (float)width, (float)(height / 0x2), mPaint);
+            canvas.drawLine((float)(width / 2), 0.0f, (float)(width / 2), (float)height, mPaint);
+            canvas.drawLine(0.0f, (float)(height / 2), (float)width, (float)(height / 2), mPaint);
             return;
         }
         if(mPhotoModule.mGridsType.equals("diagonals")) {
-            canvas.drawLine((float)(width / 0x4), 0.0f, (float)(width / 0x4), (float)height, mPaint);
-            canvas.drawLine((float)((width * 0x2) / 0x4), 0.0f, (float)((width * 0x2) / 0x4), (float)height, mPaint);
-            canvas.drawLine((float)((width * 0x3) / 0x4), 0.0f, (float)((width * 0x3) / 0x4), (float)height, mPaint);
-            canvas.drawLine(0.0f, (float)(height / 0x4), (float)width, (float)(height / 0x4), mPaint);
-            canvas.drawLine(0.0f, (float)((height * 0x2) / 0x4), (float)width, (float)((height * 0x2) / 0x4), mPaint);
-            canvas.drawLine(0.0f, (float)((height * 0x3) / 0x4), (float)width, (float)((height * 0x3) / 0x4), mPaint);
+            canvas.drawLine((float)(width / 4), 0.0f, (float)(width / 4), (float)height, mPaint);
+            canvas.drawLine((float)((width * 2) / 4), 0.0f, (float)((width * 2) / 4), (float)height, mPaint);
+            canvas.drawLine((float)((width * 3) / 4), 0.0f, (float)((width * 3) / 4), (float)height, mPaint);
+            canvas.drawLine(0.0f, (float)(height / 4), (float)width, (float)(height / 4), mPaint);
+            canvas.drawLine(0.0f, (float)((height * 2) / 4), (float)width, (float)((height * 2) / 4), mPaint);
+            canvas.drawLine(0.0f, (float)((height * 3) / 4), (float)width, (float)((height * 3) / 4), mPaint);
             canvas.drawLine(0.0f, 0.0f, (float)width, (float)height, mPaint);
             canvas.drawLine((float)width, 0.0f, 0.0f, (float)height, mPaint);
         }
