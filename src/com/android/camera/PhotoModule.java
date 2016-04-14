@@ -609,9 +609,8 @@ public class PhotoModule
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (mGrids != null && mGraphView != null) {
+                        if (mGrids != null) {
                             mGrids.PreviewChanged();
-                            mGraphView.PreviewChanged();
                         }
                     }
                });
@@ -1204,8 +1203,6 @@ public class PhotoModule
                 @Override
                 public void run() {
                     mUI.updateHistogramData(data);
-                    if(mGraphView != null)
-                        mGraphView.PreviewChanged();
                     if(mGrids != null)
                         mGrids.PreviewChanged();
                 }
@@ -2912,9 +2909,8 @@ public class PhotoModule
             mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mGrids != null && mGraphView != null) {
+                    if (mGrids != null) {
                         mGrids.PreviewChanged();
-                        mGraphView.PreviewChanged();
                     }
                 }
            });
