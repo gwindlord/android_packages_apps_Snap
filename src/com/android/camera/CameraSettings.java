@@ -264,7 +264,7 @@ public class CameraSettings {
 
     static {
         //video qualities
-//        VIDEO_QUALITY_TABLE.put("4096x2160", CamcorderProfile.QUALITY_4KDCI);
+        VIDEO_QUALITY_TABLE.put("4096x2160", CamcorderProfile.QUALITY_4kDCI);
         VIDEO_QUALITY_TABLE.put("3840x2160", CamcorderProfile.QUALITY_2160P);
         VIDEO_QUALITY_TABLE.put("2560x1440", CamcorderProfile.QUALITY_1440P);
         VIDEO_QUALITY_TABLE.put("1920x1080", CamcorderProfile.QUALITY_1080P);
@@ -294,7 +294,7 @@ public class CameraSettings {
          VIDEO_QUALITY_TO_TIMELAPSE.put(CamcorderProfile.QUALITY_QVGA , CamcorderProfile.QUALITY_TIME_LAPSE_QVGA );
          VIDEO_QUALITY_TO_TIMELAPSE.put(CamcorderProfile.QUALITY_2160P, CamcorderProfile.QUALITY_TIME_LAPSE_2160P);
          VIDEO_QUALITY_TO_TIMELAPSE.put(CamcorderProfile.QUALITY_VGA  , CamcorderProfile.QUALITY_TIME_LAPSE_VGA  );
-//         VIDEO_QUALITY_TO_TIMELAPSE.put(CamcorderProfile.QUALITY_4KDCI, CamcorderProfile.QUALITY_TIME_LAPSE_4KDCI);
+         VIDEO_QUALITY_TO_TIMELAPSE.put(CamcorderProfile.QUALITY_4kDCI, CamcorderProfile.QUALITY_TIME_LAPSE_4kDCI);
     }
 
     public static int getTimeLapseQualityFor(int quality) {
@@ -314,7 +314,7 @@ public class CameraSettings {
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_QVGA , -1 ); // does not exist
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_2160P, CamcorderProfile.QUALITY_HIGH_SPEED_2160P);
 //         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_VGA  , CamcorderProfile.QUALITY_HIGH_SPEED_VGA  );
-//         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_4KDCI, CamcorderProfile.QUALITY_HIGH_SPEED_4KDCI);
+//         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_4kDCI, CamcorderProfile.QUALITY_HIGH_SPEED_4kDCI);
     }
 
     public static int getHighSpeedQualityFor(int quality) {
