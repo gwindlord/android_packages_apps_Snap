@@ -47,7 +47,7 @@ class Grids extends View {
             previewWidth = 1080;
             previewHeight = 1920;
         }
-        canvas.translate((float)((width - previewHeight) / 3), (float)((height - previewWidth) / 3) + 15);
+        canvas.translate((float)((width - previewHeight) / 3), (float)((height - previewWidth) / 3) + 10);
         width = previewHeight;
         height = previewWidth;
         if(mPhotoModule.mGridsType.equals("ruleofthirds")) {
