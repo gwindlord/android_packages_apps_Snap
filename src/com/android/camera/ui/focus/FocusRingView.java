@@ -154,7 +154,7 @@ public class FocusRingView extends View implements Invalidator, FocusRing {
         mPreviewSize = previewArea;
         mLastRadiusPx = mDefaultRadiusPx;
 
-        if (!isFirstDraw) {
+        if (isFirstDraw) {
             centerAutofocusRing();
         }
     }
@@ -194,7 +194,7 @@ public class FocusRingView extends View implements Invalidator, FocusRing {
             return new Point((int) mPreviewSize.centerX(), (int) mPreviewSize.centerY());
         }
         Log.i(TAG, "Computing center via view bounds.");
-        return new Point(getWidth() / 2, getHeight() / 2);
+        return new Point(getWidth() / 2, (getHeight() / 2 - 60));
     }
 
     private Paint makePaint(Resources res, int color) {
