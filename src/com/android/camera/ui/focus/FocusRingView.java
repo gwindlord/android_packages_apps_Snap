@@ -194,7 +194,8 @@ public class FocusRingView extends View implements Invalidator, FocusRing {
             return new Point((int) mPreviewSize.centerX(), (int) mPreviewSize.centerY());
         }
         Log.i(TAG, "Computing center via view bounds.");
-        return new Point(getWidth() / 2, (getHeight() / 2 - 60));
+        // 28800 (480*60) not really works for dpi 480
+        return new Point(getWidth() / 2, (int)(getHeight() / 2 - (28070 / getResources().getDisplayMetrics().xdpi)));
     }
 
     private Paint makePaint(Resources res, int color) {
