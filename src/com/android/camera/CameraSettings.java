@@ -307,21 +307,20 @@ public class CameraSettings {
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_LOW  , CamcorderProfile.QUALITY_HIGH_SPEED_LOW  );
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_HIGH , CamcorderProfile.QUALITY_HIGH_SPEED_HIGH );
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_QCIF , -1 ); // does not exist
-//         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_CIF  , CamcorderProfile.QUALITY_HIGH_SPEED_CIF  );
+         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_CIF  , CamcorderProfile.QUALITY_HIGH_SPEED_CIF  );
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_480P , CamcorderProfile.QUALITY_HIGH_SPEED_480P );
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_720P , CamcorderProfile.QUALITY_HIGH_SPEED_720P );
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_1080P, CamcorderProfile.QUALITY_HIGH_SPEED_1080P);
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_QVGA , -1 ); // does not exist
          VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_2160P, CamcorderProfile.QUALITY_HIGH_SPEED_2160P);
-//         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_VGA  , CamcorderProfile.QUALITY_HIGH_SPEED_VGA  );
-//         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_4kDCI, CamcorderProfile.QUALITY_HIGH_SPEED_4kDCI);
+         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_VGA  , CamcorderProfile.QUALITY_HIGH_SPEED_VGA  );
+         VIDEO_QUALITY_TO_HIGHSPEED.put(CamcorderProfile.QUALITY_4kDCI, CamcorderProfile.QUALITY_HIGH_SPEED_4kDCI);
     }
 
     public static int getHighSpeedQualityFor(int quality) {
         // High-speed 1440p is unsupported, so just choose
         // another unsupported resolution to avoid crashing
-        if (quality == CamcorderProfile.QUALITY_1440P ||
-            quality == CamcorderProfile.QUALITY_4kDCI) {
+        if (quality == CamcorderProfile.QUALITY_1440P) {
             quality = CamcorderProfile.QUALITY_2160P;
         }
         return VIDEO_QUALITY_TO_HIGHSPEED.get(quality);
