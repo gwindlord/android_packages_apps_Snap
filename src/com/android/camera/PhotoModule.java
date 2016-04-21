@@ -4037,15 +4037,20 @@ public class PhotoModule
 
         Log.v(TAG, "manualFocusMode selected = " + manualFocusMode);
         if (manualFocusMode.equals(scaleMode)) {
+            mParameters.set("focus-mode", "auto");
+            mParameters.set("pro_camera_enable", "off");
+            mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, 0);
+            mCameraDevice.setParameters(mParameters);
             final SeekBar focusbar = new SeekBar(mActivity);
-            final int minFocusPos = mParameters.getInt(CameraSettings.KEY_MIN_FOCUS_SCALE);
-            final int maxFocusPos = mParameters.getInt(CameraSettings.KEY_MAX_FOCUS_SCALE);
+            final int minFocusPos = 0;
+            final int maxFocusPos = mParameters.getInt("max-focus-pos-index");
+            focusbar.setMax(maxFocusPos);
             //update mparameters to fetch latest focus position
             mParameters = mCameraDevice.getParameters();
             int CurFocusPos = minFocusPos;
 
             try {
-                 CurFocusPos = mParameters.getInt(CameraSettings.KEY_MANUAL_FOCUS_SCALE);
+                 CurFocusPos = mParameters.getInt("current-focus-position");
             } catch (NumberFormatException e) {
                  // Do nothing
             }
@@ -4063,10 +4068,16 @@ public class PhotoModule
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
+                  mParameters.set("focus-mode", "manual");
+                  mParameters.set("pro_camera_enable", "on");
+                  mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 0);
+                  mCameraDevice.setParameters(mParameters);
                 }
 
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                    mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, progress);
+                    mCameraDevice.setParameters(mParameters);
                     focusPositionText.setText("Current focus position is " + progress);
                 }
             });
@@ -4080,17 +4091,14 @@ public class PhotoModule
                     int focusPos = focusbar.getProgress();
                     Log.v(TAG, "Setting focus position : " + focusPos);
                     mManual3AEnabled |= MANUAL_FOCUS;
-                    mParameters.setFocusMode(Parameters.FOCUS_MODE_MANUAL_POSITION);
-                    mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 2); // 2 for scale mode
-                    mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, focusPos);
                     updateCommonManual3ASettings();
                     onSharedPreferenceChanged();
                 }
             });
             alert.show();
         } else if (manualFocusMode.equals(diopterMode)) {
-            String minFocusStr = mParameters.get(CameraSettings.KEY_MIN_FOCUS_DIOPTER);
-            String maxFocusStr = mParameters.get(CameraSettings.KEY_MAX_FOCUS_DIOPTER);
+            String minFocusStr = mParameters.get("min-focus-pos-index");
+            String maxFocusStr = PhotoModule.mParameters.get("min-focus-pos-dac");
             final double minFocusPos = Double.parseDouble(minFocusStr);
             final double maxFocusPos = Double.parseDouble(maxFocusStr);
             final EditText input = new EditText(mActivity);
@@ -4128,10 +4136,12 @@ public class PhotoModule
                     if (focuspos >= minFocusPos && focuspos <= maxFocusPos) {
                         Log.v(TAG, "Setting focus position : " + focusStr);
                         mManual3AEnabled |= MANUAL_FOCUS;
-                        mParameters.setFocusMode(Parameters.FOCUS_MODE_MANUAL_POSITION);
                         //focus type 3 is diopter mode
-                        mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 3);
+                        mParameters.set("focus-mode", "manual");
+                        mParameters.set("pro_camera_enable", "on");
+                        mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 1);
                         mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, focusStr);
+                        mCameraDevice.setParameters(mParameters);
                         updateCommonManual3ASettings();
                         onSharedPreferenceChanged();
                     } else {

@@ -688,7 +688,7 @@ public class CameraSettings {
         ListPreference video_cds_mode = group.findPreference(KEY_VIDEO_CDS_MODE);
         ListPreference tnr_mode = group.findPreference(KEY_TNR_MODE);
         ListPreference video_tnr_mode = group.findPreference(KEY_VIDEO_TNR_MODE);
-        ListPreference manualFocus = group.findPreference(KEY_MANUAL_FOCUS);
+        group.findPreference(KEY_MANUAL_FOCUS);
         ListPreference manualExposure = group.findPreference(KEY_MANUAL_EXPOSURE);
         ListPreference manualWB = group.findPreference(KEY_MANUAL_WB);
 
@@ -840,11 +840,6 @@ public class CameraSettings {
         if (videoRotation != null) {
             filterUnsupportedOptions(group,
                     videoRotation, mParameters.getSupportedVideoRotationValues());
-        }
-
-        if (manualFocus != null) {
-            filterUnsupportedOptions(group,
-                    manualFocus, getSupportedManualFocusModes(mParameters));
         }
 
         if (manualWB != null) {
