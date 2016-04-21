@@ -528,4 +528,12 @@ CHAR LIMIT = NONE] -->
   <string name="switch_photo_filmstrip">Лента</string>
   <!--  String shown when setting the homepage wallpaper in the background [CHAR LIMIT=NONE] -->
   <string name="setting_wallpaper">Установка обоев…</string>
+
+   <string name="manual_focus_popup_title_text">Ручная фокусировка</string>
+   <string name="manual_focus_alert_title_text">Настройка ручной фокусировки</string>
+   <string name="manual_focus_alert_cancel">Отмена</string>
+   <string name="manual_focus_current_focus_pos">Текущее значение фокусировки:</string>
+   <string name="manual_focus_enter_focus_pos">Введите значение фокусировки в диапазоне от</string>
+   <string name="manual_focus_to">до</string>
+   <string name="manual_focus_invalid_position">Неверное значение фокусировки</string>
 </resources>

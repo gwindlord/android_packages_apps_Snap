@@ -235,6 +235,10 @@ public class CameraSettings {
     public static final String KEY_MANUAL_FOCUS_POSITION = "manual-focus-position";
     public static final String KEY_MANUAL_FOCUS_SCALE = "cur-focus-scale";
     public static final String KEY_MANUAL_FOCUS_DIOPTER = "cur-focus-diopter";
+    public static final String KEY_MANUAL_FOCUS_MODE = "focus-mode";
+    public static final String KEY_PRO_CAMERA_ENABLE = "pro_camera_enable";
+    public static final String KEY_MIN_FOCUS_POS_INDEX = "min-focus-pos-index";
+    public static final String KEY_MIN_FOCUS_POS_DAC = "min-focus-pos-dac";
 
     public static final String KEY_QC_SUPPORTED_MANUAL_FOCUS_MODES = "manual-focus-modes";
     public static final String KEY_QC_SUPPORTED_MANUAL_EXPOSURE_MODES = "manual-exposure-modes";
