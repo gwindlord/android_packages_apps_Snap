@@ -2331,6 +2331,10 @@ public class PhotoModule
         // Do not do focus if there is not enough storage.
         if (pressed && !canTakePicture()) return;
 
+        final boolean focusOnShot = mPreferences.getString(CameraSettings.KEY_FOCUS_BEFORE_SHOT,
+        mActivity.getString(R.string.pref_camera_focus_before_default)).equals(mActivity.getString(R.string.setting_on_value));
+        if (pressed && !focusOnShot) return;
+
         if (pressed) {
             mFocusManager.onShutterDown();
         } else {

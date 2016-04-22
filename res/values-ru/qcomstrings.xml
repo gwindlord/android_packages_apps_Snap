@@ -270,11 +270,12 @@
   <string name="pref_camera_save_dng_on">Вкл</string>
   <string name="pref_camera_save_dng_off">Выкл</string>
 
-    <string name="pref_camera_grids_title">Сетка</string>
-    <string name="pref_camera_grids_entry_none">Нет</string>
-    <string name="pref_camera_grids_entry_ruleofthirds">Правило третей</string>
-    <string name="pref_camera_grids_entry_fourth">Четверти</string>
-    <string name="pref_camera_grids_entry_viewfinder">Видоискатель</string>
-    <string name="pref_camera_grids_entry_diagonals">Диагонали</string>
+  <string name="pref_camera_grids_title">Сетка</string>
+  <string name="pref_camera_grids_entry_none">Нет</string>
+  <string name="pref_camera_grids_entry_ruleofthirds">Правило третей</string>
+  <string name="pref_camera_grids_entry_fourth">Четверти</string>
+  <string name="pref_camera_grids_entry_viewfinder">Видоискатель</string>
+  <string name="pref_camera_grids_entry_diagonals">Диагонали</string>
 
+  <string name="pref_camera_focus_before_title">Фокусировка перед съемкой</string>
 </resources>

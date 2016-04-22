@@ -63,6 +63,7 @@ public class CameraSettings {
     public static final String KEY_VIDEOCAMERA_FOCUS_TIME = "pref_camera_video_focustime_key";
     public static final String KEY_FLASH_MODE = "pref_camera_flashmode_key";
     public static final String KEY_VIDEOCAMERA_FLASH_MODE = "pref_camera_video_flashmode_key";
+    public static final String KEY_FOCUS_BEFORE_SHOT = "pref_camera_focus_before_key";
     public static final String KEY_WHITE_BALANCE = "pref_camera_whitebalance_key";
     public static final String KEY_SCENE_MODE = "pref_camera_scenemode_key";
     public static final String KEY_SAVE_DNG = "pref_camera_save_dng_key";
@@ -116,6 +117,7 @@ public class CameraSettings {
     public static final String KEY_VIDEO_SNAPSHOT_SIZE = "pref_camera_videosnapsize_key";
     public static final String KEY_VIDEO_HIGH_FRAME_RATE = "pref_camera_hfr_key";
     public static final String KEY_SEE_MORE = "pref_camera_see_more_key";
+    public static final String KEY_VIDEO_FOCUS_BEFORE_SHOT = "pref_video_focus_before_key";
     public static final String KEY_VIDEO_HDR = "pref_camera_video_hdr_key";
     public static final String DEFAULT_VIDEO_QUALITY_VALUE = "custom";
     public static final String KEY_SKIN_TONE_ENHANCEMENT = "pref_camera_skinToneEnhancement_key";
