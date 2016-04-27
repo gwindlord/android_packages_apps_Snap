@@ -167,7 +167,7 @@
         <item>@string/pref_camera_picturesize_entry_16_1mp_wide</item> <!-- 495 -->
         <item>@string/pref_camera_picturesize_entry_16mp</item> <!-- 490 -->
         <item>@string/pref_camera_picturesize_entry_15_9mp_wide</item> <!-- 480 -->
-        <item>@string/pref_camera_picturesize_entry_13mp</item> <!-- 470 -->
+        <item>@string/pref_camera_picturesize_entry_13_1mp</item> <!-- 475 -->
         <item>@string/pref_camera_picturesize_entry_13mp</item> <!-- 460 -->
         <item>@string/pref_camera_picturesize_entry_12_8mp</item> <!-- 450 -->
         <item>@string/pref_camera_picturesize_entry_12_7mp</item> <!-- 440 -->
@@ -184,23 +184,24 @@
         <item>@string/pref_camera_picturesize_entry_9_4mp_wide</item> <!-- 350 -->
         <item>@string/pref_camera_picturesize_entry_9mp</item> <!-- 340 -->
         <item>@string/pref_camera_picturesize_entry_8_9mp</item> <!-- 335 -->
-        <item>@string/pref_camera_picturesize_entry_8_2mp_wide</item> <!-- 330 -->
+		<item>@string/pref_camera_picturesize_entry_8_8mp_wide</item> <!-- 330 -->
+        <item>@string/pref_camera_picturesize_entry_8_2mp_wide</item> <!-- 325 -->
         <item>@string/pref_camera_picturesize_entry_8mp</item> <!-- 320 -->
         <item>@string/pref_camera_picturesize_entry_7_7mp</item> <!-- 310 -->
         <item>@string/pref_camera_picturesize_entry_7_5mp_wide</item> <!-- 300 -->
         <item>@string/pref_camera_picturesize_entry_6_4mp</item> <!-- 290 -->
-        <item>@string/pref_camera_picturesize_entry_6mp_wide</item> <!-- 280 -->
+        <item>@string/pref_camera_picturesize_entry_6mp</item> <!-- 280 -->
         <item>@string/pref_camera_picturesize_entry_6mp_wide</item> <!-- 270 -->
-        <item>@string/pref_camera_picturesize_entry_5mp</item> <!-- 260 -->
-        <item>@string/pref_camera_picturesize_entry_5mp</item> <!-- 250 -->
+        <item>@string/pref_camera_picturesize_entry_5_1mp</item> <!-- 260 -->
+        <item>@string/pref_camera_picturesize_entry_5mp_wide</item> <!-- 250 -->
         <item>@string/pref_camera_picturesize_entry_5mp</item> <!-- 240 -->
         <item>@string/pref_camera_picturesize_entry_4_5mp</item> <!-- 230 -->
-        <item>@string/pref_camera_picturesize_entry_4mp_wide</item> <!-- 220 -->
-        <item>@string/pref_camera_picturesize_entry_4mp_wide</item> <!-- 215 -->
+        <item>@string/pref_camera_picturesize_entry_4mp_wide2</item> <!-- 220 -->
+        <item>@string/pref_camera_picturesize_entry_4mp_wide1</item> <!-- 215 -->
         <item>@string/pref_camera_picturesize_entry_4mp</item> <!-- 210 -->
         <item>@string/pref_camera_picturesize_entry_3_7mp_wide</item> <!-- 200 -->
         <item>@string/pref_camera_picturesize_entry_3mp</item> <!-- 190 -->
-        <item>@string/pref_camera_picturesize_entry_3mp</item> <!-- 180 -->
+        <item>@string/pref_camera_picturesize_entry_3mp_wide</item> <!-- 180 -->
         <item>@string/pref_camera_picturesize_entry_2_5mp</item> <!-- 170 -->
         <item>@string/pref_camera_picturesize_entry_2_5mp_wide</item> <!-- 160 -->
         <item>@string/pref_camera_picturesize_entry_2_1mp_wide</item> <!-- 150 -->
@@ -211,7 +212,8 @@
         <item>@string/pref_camera_picturesize_entry_1_5mp</item> <!-- 110 -->
         <item>@string/pref_camera_picturesize_entry_1_3mp</item> <!-- 100 -->
         <item>@string/pref_camera_picturesize_entry_1_2mp_wide</item> <!-- 95 -->
-        <item>@string/pref_camera_picturesize_entry_1mp</item> <!-- 90 -->
+        <item>@string/pref_camera_picturesize_entry_1mp_wide</item> <!-- 90 -->
+		<item>@string/pref_camera_picturesize_entry_1mp</item> <!-- 85 -->
         <item>@string/pref_camera_picturesize_entry_wxga</item> <!-- 80 -->
         <item>@string/pref_camera_picturesize_entry_xga</item> <!-- 70 -->
         <item>@string/pref_camera_picturesize_entry_svga</item> <!-- 60 -->
@@ -234,7 +236,7 @@
         <item>5344x3006</item> <!-- 495 -->
         <item>4608x3456</item> <!-- 490 -->
         <item>5312x2988</item> <!-- 480 -->
-        <item>4208x3120</item> <!-- 470 -->
+        <item>4208x3120</item> <!-- 475 -->
         <item>4160x3120</item> <!-- 460 -->
         <item>4128x3096</item> <!-- 450 -->
         <item>4128x3088</item> <!-- 440 -->
@@ -251,7 +253,8 @@
         <item>4096x2304</item> <!-- 350 -->
         <item>3920x2204</item> <!-- 340 -->
         <item>3456x2592</item> <!-- 335 -->
-        <item>3840x2160</item> <!-- 330 -->
+		<item>4096x2160</item> <!-- 330 -->
+        <item>3840x2160</item> <!-- 325 -->
         <item>3264x2448</item> <!-- 320 -->
         <item>3200x2400</item> <!-- 310 -->
         <item>3648x2052</item> <!-- 300 -->
@@ -279,6 +282,7 @@
         <item>1280x960</item> <!-- 100 -->
         <item>1440x810</item> <!-- 95 -->
         <item>1280x720</item> <!-- 90 -->
+		<item>1280x768</item> <!-- 85 -->
         <item>1024x768</item> <!-- 80 -->
         <item>1024x600</item> <!-- 70 -->
         <item>800x600</item> <!-- 60 -->
