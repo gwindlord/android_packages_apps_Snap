@@ -397,7 +397,7 @@ public class DngSupportedDevices
         switch (filesize)
         {
             case 17522688: //qcom
-                return new DngProfile(64, 4212, 3120, Qcom, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4208, 3120, Qcom, RGGb, getG3_rowSizeL,
                         Matrixes.onePCCM1,
                         Matrixes.onePCCM2,
                         Matrixes.onePNM,
@@ -407,7 +407,7 @@ public class DngSupportedDevices
                         Matrixes.OnePlus_reduction_matrix2,
                         Matrixes.OnePlus_noise_3x1_matrix);
             case 16424960: //mipi
-                return new DngProfile(64, 4212, 3082, Mipi, RGGb, getG3_rowSizeL,
+                return new DngProfile(64, 4208, 3082, Mipi, RGGb, getG3_rowSizeL,
                         Matrixes.onePCCM1,
                         Matrixes.onePCCM2,
                         Matrixes.onePNM,
