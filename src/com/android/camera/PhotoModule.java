@@ -55,7 +55,6 @@ import android.view.KeyEvent;
 import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.SeekBar;
@@ -73,7 +72,6 @@ import com.android.camera.PhotoModule.NamedImages.NamedEntity;
 import com.android.camera.exif.ExifInterface;
 import com.android.camera.exif.ExifTag;
 import com.android.camera.exif.Rational;
-import com.android.camera.ui.ManualFocusController;
 import com.android.camera.ui.CountDownView.OnCountDownFinishedListener;
 import com.android.camera.ui.ModuleSwitcher;
 import com.android.camera.ui.RotateTextToast;
@@ -82,8 +80,6 @@ import com.android.camera.util.CameraUtil;
 import com.android.camera.util.GcamHelper;
 import com.android.camera.util.UsageStatistics;
 import org.codeaurora.snapcam.R;
-import com.devadvance.circularseekbar.CircularSeekBar;
-import com.devadvance.circularseekbar.CircularSeekBar.OnCircularSeekBarChangeListener;
 
 import android.widget.EditText;
 import android.app.AlertDialog;
@@ -164,17 +160,15 @@ public class PhotoModule
 
     private static final String DEBUG_IMAGE_PREFIX = "DEBUG_";
 
-    public static PhotoModule _this = null;
-
     // copied from Camera hierarchy
-    public static CameraActivity mActivity;
-    private static CameraProxy mCameraDevice;
+    private CameraActivity mActivity;
+    private CameraProxy mCameraDevice;
     private int mCameraId;
     public static Parameters mParameters;
     private boolean mPaused;
     private View mRootView;
 
-    public static PhotoUI mUI;
+    private PhotoUI mUI;
 
     // The activity is going to switch to the specified camera id. This is
     // needed because texture copy is done in GL thread. -1 means camera is not
@@ -203,7 +197,7 @@ public class PhotoModule
 
     // The degrees of the device rotated clockwise from its natural orientation.
     private int mOrientation = OrientationEventListener.ORIENTATION_UNKNOWN;
-    private static ComboPreferences mPreferences;
+    private ComboPreferences mPreferences;
     private String mPrevSavedCDS;
     private boolean isTNREnabled;
 
@@ -336,11 +330,11 @@ public class PhotoModule
     public long mCaptureStartTime;
 
     // This handles everything about focus.
-    private static FocusOverlayManager mFocusManager;
+    private FocusOverlayManager mFocusManager;
 
     private String rawname = null;
 
-    private static String mSceneMode;
+    private String mSceneMode;
     private String mSavedFlashMode = null;
 
     private final Handler mHandler = new MainHandler();
@@ -358,7 +352,7 @@ public class PhotoModule
     // True if all the parameters needed to start preview is ready.
     private boolean mCameraPreviewParamsReady = false;
 
-    public static int mManual3AEnabled = 0;
+    private int mManual3AEnabled = 0;
     private static final int MANUAL_FOCUS = 1;
     private static final int MANUAL_WB = 2;
     private static final int MANUAL_EXPOSURE = 4;
@@ -517,7 +511,6 @@ public class PhotoModule
 
     @Override
     public void init(CameraActivity activity, View parent) {
-        _this = this;
         mActivity = activity;
         mRootView = parent;
         mPreferences = new ComboPreferences(mActivity);
@@ -969,35 +962,6 @@ public class PhotoModule
             mCameraDevice.setFaceDetectionCallback(null, null);
             mCameraDevice.stopFaceDetection();
             mUI.onStopFaceDetection();
-        }
-    }
-
-    public class CircleSeekBarListener implements OnCircularSeekBarChangeListener
-    {
-        TextView focusPositionText;
-        
-        public CircleSeekBarListener(final TextView focusPositionText) {
-            super();
-            this.focusPositionText = focusPositionText;
-        }
-        
-        @Override
-        public void onProgressChanged(final CircularSeekBar circularSeekBar, final int n, final boolean b) {
-            mParameters.set("manual-focus-position", n);
-            updateAll();
-            focusPositionText.setText((CharSequence)("Current focus position is " + n));
-        }
-        
-        @Override
-        public void onStartTrackingTouch(final CircularSeekBar circularSeekBar) {
-            mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_MODE, "manual");
-            mParameters.set(CameraSettings.KEY_PRO_CAMERA_ENABLE, "on");
-            mParameters.set("manual-focus-pos-type", 0);
-            updateAll();
-        }
-        
-        @Override
-        public void onStopTrackingTouch(final CircularSeekBar circularSeekBar) {
         }
     }
 
@@ -1808,14 +1772,14 @@ public class PhotoModule
             setAutoExposureLockIfSupported();
             setAutoWhiteBalanceLockIfSupported();
 
-            updateAll();
+            mCameraDevice.setParameters(mParameters);
             mParameters = mCameraDevice.getParameters();
         }
 
          // LGE G4: Disable hdr if luminance is low and flash get's used
         if (CameraUtil.isLowLuminance(mParameters)) {
             mParameters.set(CameraSettings.KEY_SNAPCAM_HDR_MODE, CameraSettings.LGE_HDR_MODE_OFF);
-            updateAll();
+            mCameraDevice.setParameters(mParameters);
             mParameters = mCameraDevice.getParameters();
         }
 
@@ -1903,7 +1867,7 @@ public class PhotoModule
         }
     }
 
-    public static void updateCommonManual3ASettings() {
+    private void updateCommonManual3ASettings() {
         mSceneMode = Parameters.SCENE_MODE_AUTO;
         String flashMode = Parameters.FLASH_MODE_OFF;
         String redeyeReduction = mActivity.getString(R.string.
@@ -2052,7 +2016,7 @@ public class PhotoModule
                 colorEffect = defaultEffect;
                 mUI.setPreference(CameraSettings.KEY_COLOR_EFFECT, colorEffect);
                 mParameters.setColorEffect(colorEffect);
-                updateAll();
+                mCameraDevice.setParameters(mParameters);
                 mParameters = mCameraDevice.getParameters();
             }
             exposureCompensation =
@@ -2118,7 +2082,7 @@ public class PhotoModule
             CameraSettings.removePreferenceFromScreen(mPreferenceGroup, CameraSettings.KEY_SELFIE_FLASH);
     }
 
-    private static void overrideCameraSettings(final String flashMode,
+    private void overrideCameraSettings(final String flashMode,
             final String whiteBalance, final String focusMode,
             final String exposureMode, final String autoExposure,
             final String saturation, final String contrast,
@@ -2188,7 +2152,7 @@ public class PhotoModule
             if (mParameters != null && mCameraDevice != null && mCameraState == IDLE) {
                 Log.v(TAG, "onOrientationChanged, update parameters");
                 setFlipValue();
-                updateAll();
+                mCameraDevice.setParameters(mParameters);
             }
             mUI.setOrientation(mOrientation, true);
         }
@@ -3137,7 +3101,7 @@ public class PhotoModule
         }
     }
 
-    private static String getSaturationSafe() {
+    private String getSaturationSafe() {
         String ret = null;
         if (CameraUtil.isSupported(mParameters, "saturation") &&
                 CameraUtil.isSupported(mParameters, "max-saturation")) {
@@ -3148,7 +3112,7 @@ public class PhotoModule
         return ret;
     }
 
-    private static String getContrastSafe() {
+    private String getContrastSafe() {
         String ret = null;
         if (CameraUtil.isSupported(mParameters, "contrast") &&
                 CameraUtil.isSupported(mParameters, "max-contrast")) {
@@ -3159,7 +3123,7 @@ public class PhotoModule
         return ret;
     }
 
-    private static String getSharpnessSafe() {
+    private String getSharpnessSafe() {
         String ret = null;
         if (CameraUtil.isSupported(mParameters, "sharpness") &&
                 CameraUtil.isSupported(mParameters, "max-sharpness")) {
@@ -3763,7 +3727,7 @@ public class PhotoModule
                 // On UI thread only, not when camera starts up
                 setupPreview();
             } else {
-                updateAll();
+                mCameraDevice.setParameters(mParameters);
             }
             mParameters = mCameraDevice.getParameters();
             Log.v(TAG, "Preview Size changed. Restart Preview");
@@ -3807,7 +3771,7 @@ public class PhotoModule
                 if (!(Parameters.SCENE_MODE_AUTO).equals(mParameters.getSceneMode())
                     && !(Parameters.SCENE_MODE_HDR).equals(mParameters.getSceneMode())) {
                     mParameters.setSceneMode(Parameters.SCENE_MODE_AUTO);
-                    updateAll();
+                    mCameraDevice.setParameters(mParameters);
                     mParameters = mCameraDevice.getParameters();
                 }
                 if (mLgeHdrMode) {
@@ -3833,7 +3797,7 @@ public class PhotoModule
                 // Setting scene mode will change the settings of flash mode,
                 // white balance, and focus mode. Here we read back the
                 // parameters, so we can know those settings.
-                updateAll();
+                mCameraDevice.setParameters(mParameters);
                 mParameters = mCameraDevice.getParameters();
             }
         } else {
@@ -3989,7 +3953,7 @@ public class PhotoModule
                 updateCameraParametersFocus();
             }
 
-            updateAll();
+            mCameraDevice.setParameters(mParameters);
             mParameters = mCameraDevice.getParameters();
             mFocusManager.setParameters(mParameters);
 
@@ -4058,8 +4022,8 @@ public class PhotoModule
         final AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
         LinearLayout linear = new LinearLayout(mActivity);
         linear.setOrientation(1);
-        alert.setTitle(R.string.manual_focus_alert_title_text);
-        alert.setNegativeButton(R.string.manual_focus_alert_cancel,new DialogInterface.OnClickListener()
+        alert.setTitle("Manual Focus Settings");
+        alert.setNegativeButton("Cancel",new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog,int id)
             {
@@ -4077,33 +4041,84 @@ public class PhotoModule
 
         Log.v(TAG, "manualFocusMode selected = " + manualFocusMode);
         if (manualFocusMode.equals(scaleMode)) {
-            mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_MODE, "auto");
-            mParameters.set(CameraSettings.KEY_PRO_CAMERA_ENABLE, "off");
+            mParameters.set("focus-mode", "auto");
+            mParameters.set("pro_camera_enable", "off");
             mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, 0);
-            updateAll();
-            ManualFocusController manualFocusController = (ManualFocusController)mActivity.getLayoutInflater().inflate(R.layout.manual_focus_pop, (ViewGroup)null, false);
-            manualFocusController.initialize();
-            mUI.dismissPopup();
-            mUI.showPopup(manualFocusController);
+            mCameraDevice.setParameters(mParameters);
+            final SeekBar focusbar = new SeekBar(mActivity);
+            final int minFocusPos = 0;
+            final int maxFocusPos = mParameters.getInt("max-focus-pos-index");
+            focusbar.setMax(maxFocusPos);
+            //update mparameters to fetch latest focus position
+            mParameters = mCameraDevice.getParameters();
+            int CurFocusPos = minFocusPos;
+
+            try {
+                 CurFocusPos = mParameters.getInt("current-focus-position");
+            } catch (NumberFormatException e) {
+                 // Do nothing
+            }
+
+            focusbar.setProgress(CurFocusPos);
+            focusPositionText.setText("Current focus position is " + CurFocusPos);
+
+            alert.setMessage("Enter focus position in the range of " + minFocusPos
+                    + " to " + maxFocusPos);
+
+            focusbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                  mParameters.set("focus-mode", "manual");
+                  mParameters.set("pro_camera_enable", "on");
+                  mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 0);
+                  mCameraDevice.setParameters(mParameters);
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                    mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, progress);
+                    mCameraDevice.setParameters(mParameters);
+                    focusPositionText.setText("Current focus position is " + progress);
+                }
+            });
+            linear.addView(focusbar);
+            linear.addView(focusPositionText);
+            alert.setView(linear);
+            alert.setPositiveButton("Ok",new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog,int id)
+                {
+                    int focusPos = focusbar.getProgress();
+                    Log.v(TAG, "Setting focus position : " + focusPos);
+                    mManual3AEnabled |= MANUAL_FOCUS;
+                    updateCommonManual3ASettings();
+                    onSharedPreferenceChanged();
+                }
+            });
+            alert.show();
         } else if (manualFocusMode.equals(diopterMode)) {
-            String minFocusStr = mParameters.get(CameraSettings.KEY_MIN_FOCUS_POS_INDEX);
-            String maxFocusStr = mParameters.get(CameraSettings.KEY_MIN_FOCUS_POS_DAC);
+            String minFocusStr = mParameters.get("min-focus-pos-index");
+            String maxFocusStr = PhotoModule.mParameters.get("min-focus-pos-dac");
             final double minFocusPos = Double.parseDouble(minFocusStr);
             final double maxFocusPos = Double.parseDouble(maxFocusStr);
             final EditText input = new EditText(mActivity);
             int floatType = InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER;
             input.setInputType(floatType);
-            alert.setMessage(mActivity.getString(R.string.manual_focus_enter_focus_pos) + " " + minFocusPos
-                     + " " + mActivity.getString(R.string.manual_focus_to) + " " + maxFocusPos);
+            alert.setMessage("Enter focus position in the range of " + minFocusPos
+                    + " to " + maxFocusPos);
             //update mparameters to fetch latest focus position
             mParameters = mCameraDevice.getParameters();
             final String CurFocusPos = mParameters.get(CameraSettings.KEY_MANUAL_FOCUS_DIOPTER);
-            focusPositionText.setText((CharSequence)mActivity.getString(R.string.manual_focus_current_focus_pos) + " " +
+            focusPositionText.setText("Current focus position is " +
                     (CurFocusPos != null ? CurFocusPos : minFocusStr));
             linear.addView(input);
             linear.addView(focusPositionText);
             alert.setView(linear);
-            alert.setPositiveButton(R.string.manual_focus_alert_ok,new DialogInterface.OnClickListener()
+            alert.setPositiveButton("Ok",new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog,int id)
                 {
@@ -4118,7 +4133,7 @@ public class PhotoModule
                         }
 
                     } else {
-                        RotateTextToast.makeText(mActivity, R.string.manual_focus_invalid_position,
+                        RotateTextToast.makeText(mActivity, "Invalid focus position",
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -4126,15 +4141,15 @@ public class PhotoModule
                         Log.v(TAG, "Setting focus position : " + focusStr);
                         mManual3AEnabled |= MANUAL_FOCUS;
                         //focus type 3 is diopter mode
-                        mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_MODE, "manual");
-                        mParameters.set(CameraSettings.KEY_PRO_CAMERA_ENABLE, "on");
+                        mParameters.set("focus-mode", "manual");
+                        mParameters.set("pro_camera_enable", "on");
                         mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_TYPE, 1);
                         mParameters.set(CameraSettings.KEY_MANUAL_FOCUS_POSITION, focusStr);
-                        updateAll();
+                        mCameraDevice.setParameters(mParameters);
                         updateCommonManual3ASettings();
                         onSharedPreferenceChanged();
                     } else {
-                        RotateTextToast.makeText(mActivity, R.string.manual_focus_invalid_position,
+                        RotateTextToast.makeText(mActivity, "Invalid focus position",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -4639,7 +4654,7 @@ public class PhotoModule
         // Set zoom parameters asynchronously
         synchronized (mCameraDevice) {
             mParameters.setZoom(mZoomValue);
-            updateAll();
+            mCameraDevice.setParameters(mParameters);
             Parameters p = mCameraDevice.getParameters();
             if (p != null) return p.getZoom();
         }
@@ -4738,9 +4753,4 @@ public class PhotoModule
         return ((mCameraState == LONGSHOT) && (mLongshotSnapNum == mReceivedSnapNum) &&
                 !mLongshotActive);
     }
-
-    public static void updateAll() {
-        mCameraDevice.setParameters(mParameters);
-    }
-
 }

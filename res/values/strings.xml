@@ -654,15 +654,4 @@ CHAR LIMIT = NONE] -->
 
     <!--  String shown when setting the homepage wallpaper in the background [CHAR LIMIT=NONE] -->
     <string name="setting_wallpaper">Setting wallpaper</string>
-
-    <string name="TextView">TextView</string>
-    <string name="manual_focus_popup_title_text">Manual Focus Controller</string>
-    <string name="manual_focus_alert_title_text">Manual Focus Settings</string>
-    <string name="manual_focus_alert_cancel">Cancel</string>
-    <string name="manual_focus_alert_ok">OK</string>
-    <string name="manual_focus_current_focus_pos">Current focus position is</string>
-    <string name="manual_focus_enter_focus_pos">Enter focus position in the range of</string>
-    <string name="manual_focus_to">to</string>
-    <string name="manual_focus_invalid_position">Invalid focus position</string>
-
  </resources>
