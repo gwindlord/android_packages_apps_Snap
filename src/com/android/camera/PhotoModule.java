@@ -4089,7 +4089,7 @@ public class PhotoModule
             alert.show();
         } else if (manualFocusMode.equals(diopterMode)) {
             String minFocusStr = mParameters.get("min-focus-pos-index");
-            String maxFocusStr = PhotoModule.mParameters.get("min-focus-pos-dac");
+            String maxFocusStr = mParameters.get("min-focus-pos-dac");
             final double minFocusPos = Double.parseDouble(minFocusStr);
             final double maxFocusPos = Double.parseDouble(maxFocusStr);
             final EditText input = new EditText(mActivity);
