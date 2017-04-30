@@ -938,7 +938,9 @@ public class VideoModule implements CameraModule,
 
     private boolean is4KEnabled() {
        if (mProfile.quality == CamcorderProfile.QUALITY_2160P ||
-           mProfile.quality == CamcorderProfile.QUALITY_4kDCI) {
+           mProfile.quality == CamcorderProfile.QUALITY_4kDCI ||
+           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_2160P ||
+           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_4kDCI) {
            return true;
        } else {
            return false;
@@ -946,7 +948,8 @@ public class VideoModule implements CameraModule,
     }
 
     private boolean is1080pEnabled() {
-       if (mProfile.quality == CamcorderProfile.QUALITY_1080P) {
+       if (mProfile.quality == CamcorderProfile.QUALITY_1080P ||
+           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_1080P) {
            return true;
        } else {
            return false;
@@ -954,7 +957,8 @@ public class VideoModule implements CameraModule,
     }
 
     private boolean is720pEnabled() {
-       if (mProfile.quality == CamcorderProfile.QUALITY_720P) {
+       if (mProfile.quality == CamcorderProfile.QUALITY_720P ||
+           mProfile.quality == CamcorderProfile.QUALITY_TIME_LAPSE_720P) {
            return true;
        } else {
            return false;
